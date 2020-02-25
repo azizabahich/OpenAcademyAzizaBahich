@@ -1,0 +1,3 @@
+<odoo>
+    <menuitem id="academy_menu" name="Courses" parent="main_academy_menu" sequence="0"/>
+</odoo>
