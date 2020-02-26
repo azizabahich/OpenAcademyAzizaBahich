@@ -15,7 +15,7 @@
         <act_window id="launch_session_wizard"
                     name="Add Attendees"
                     binding_model="academy.session"
-                    res_model="openacademy.wizard"
+                    res_model="academy.wizard"
                     view_mode="form"
                     target="new"/>
 </odoo>

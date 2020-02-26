@@ -27,10 +27,10 @@
     'data': [
         'security/ir.model.access.csv',
         'views/academy_views.xml',
-        'views/course.xml',
+        'views/course_views.xml',
         'views/partner.xml',
         'views/reports.xml',
-        'views/session.xml',
+        'views/session_views.xml',
         'views/session_wizard.xml',
         'views/session_board.xml',
     ],
