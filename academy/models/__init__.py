@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import models, course, partner, session, wizard
+from . import models, course, session, partner, wizard

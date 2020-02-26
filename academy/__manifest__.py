@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "academy",
+     'name': "academy",
 
-    'summary': """Manage trainings""",
+     'summary': """Manage trainings""",
 
     'description': """
        Open Academy module for managing trainings:
@@ -28,11 +28,11 @@
         'security/ir.model.access.csv',
         'views/academy_views.xml',
         'views/course_views.xml',
-        'views/partner.xml',
-        'views/reports.xml',
         'views/session_views.xml',
-        'views/session_wizard.xml',
+        'views/reports.xml',
         'views/session_board.xml',
+        'views/session_wizard.xml',
+        'views/partner.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

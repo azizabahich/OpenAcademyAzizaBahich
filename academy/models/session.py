@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from odoo import models, fields, api, exceptions, _
+from odoo import models, fields, api, exceptions
 
 class Session(models.Model):
     _name = 'academy.session'
