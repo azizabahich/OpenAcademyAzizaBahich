@@ -7,6 +7,7 @@
                 <tree string="Course Tree">
                     <field name="name"/>
                     <field name="responsible_id"/>
+                    <field name="teacher_id"/>
                 </tree>
             </field>
         </record>
@@ -22,17 +23,18 @@
                             <field name="name"/>
                             <field name="description"/>
                             <field name="responsible_id"/>
-
+                            <field name="teacher_id"/>
                         </group>
                         <notebook>
                             <page string="Description">
                                 <field name="description"/>
                             </page>
-                            <page string="About">
-                                This is an example of notebooks
-                            </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                      <field name="message_follower_ids" widget="mail_followers"/>
+                      <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -44,6 +46,7 @@
                 <search>
                     <field name="name"/>
                     <field name="description"/>
+                    <field name="teacher_id"/>
                     <filter name="my_courses" string="My Courses"
                             domain="[('responsible_id', '=', uid)]"/>
                     <group string="Group By">
@@ -66,8 +69,8 @@
         </record>
 
 
-    <menuitem id="academy_menu" name="Courses"
+    <menuitem id="academy_courses_menu" name="Courses"
                   parent="main_academy_menu" sequence="1"/>
-    <menuitem id="courses_menu" name="List of courses" parent="academy_menu"
+    <menuitem id="courses_menu" name="List of courses" parent="academy_courses_menu"
                   action="course_list_action"/>
 </odoo>

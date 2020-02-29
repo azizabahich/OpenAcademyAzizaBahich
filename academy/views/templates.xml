@@ -1,5 +1,234 @@
+
 <odoo>
-    <data>
+    <template id="index">
+        <t t-call="website.layout">
+            <t t-set="title">Documents</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="col-12 col-md col-lg-4 col-xl-3 o_my_sidebar">
+                        <h3>Documents</h3>
+                        <div class="o_portal_docs list-group">
+                            <div class="list-group-item list-group-item-action d-flex align-items-center justify-content-between" title="Sessions">
+                                    <a t-attf-href="/my/{{ slugg }}">Sessions</a>
+
+                                    <span class="badge badge-secondary badge-pill">
+                                            <t t-esc="ins_sessions"/>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+
+    </template>
+
+    <template id="infos">
+        <t t-call="website.layout">
+            <t t-set="title">My Sessions</t>
+            <div class="oe_structure"/>
+            <div class="oe_structure">
+                <div class="container">
+                        <main>
+                            <div id="wrap" class="o_portal_wrap">
+                                <div class="container mb64">
+                                    <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  mt-3 rounded">
+                                         <ol class="o_portal_submenu breadcrumb mb-0 py-2 flex-grow-1">
+                                            <li class="breadcrumb-item"><a href="/my/home"><i class="fa fa-home"></i></a></li>
+                                            <li class="breadcrumb-item active ">Sessions</li>
+                                         </ol>
+                                    </nav>
+
+                                    <div class="table-responsive border rounded border-top-0 ">
+                                        <table class="table rounded mb-0 bg-white o_portal_my_doc_table">
+
+                                            <thead>
+                                                <tr class="active">
+                                                    <th>Id #</th>
+                                                    <th>Name</th>
+                                                    <th>Active</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <t t-foreach="session" t-as="ses">
+                                                    <tr>
+                                                    <td><a t-attf-href="/my/home/session/{{slug(ses)}}"><t t-esc="ses.id"/></a></td>
+                                                    <td><a t-attf-href="/my/home/session/{{slug(ses)}}"><t t-esc="ses.name"/></a></td>
+                                                    <td >
+                                                        <t t-esc="ses.active"/>
+                                                    </td>
+
+                                                </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <div class="o_portal_pager text-center">
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    <div class="oe_structure"/>
+    </t>
+    </template>
+
+
+    <template id="sessionsForm">
+            <t t-call="website.layout">
+                <t t-set="title">Session details</t>
+                <div class="oe_structure"/>
+                <div class="oe_structure">
+                    <div class="container">
+                    <main>
+                       <t t-foreach="session" t-as="ses">
+
+                        <div class="o_portal container mt-3">
+                            <div class="row align-items-center bg-white no-gutters border rounded">
+                                <div class="col">
+
+                                    <ol class="o_portal_submenu breadcrumb mb-0 py-2 flex-grow-1">
+                                        <li class="breadcrumb-item" ><a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"></i></a></li>
+
+                                        <li class="breadcrumb-item ">
+                                            Sessions
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            #<span><t t-esc="ses.id"/></span>
+                                        </li>
+                                        <li>
+
+                                        </li>
+                                    </ol>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wrap" class="o_portal_wrap">
+                        <div class="container mb64">
+                            <div class="card mt-0 border-top-0 rounded-0 rounded-bottom ">
+                                <div class="card-header ">
+                                    <div class="row no-gutters">
+                                        <div class="col-md">
+                                            <h5 class="mb-1 mb-md-0">
+                                             <t t-esc="ses.name"/>
+                                            </h5>
+                                        </div>
+                                        <div class="col-md text-md-right">
+                                            <span class=" badge badge-pill badge-info"><a role="button" t-attf-href="/my/home/session/edit/{{slug(ses)}}" class="btn btn-sm"><i class="fa fa-pencil"/> Edit</a></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-body ">
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                              <strong>Name: </strong>
+                                              <span><t t-esc="ses.name"/></span>
+
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                              <strong>Start Date: </strong>
+                                              <span><t t-esc="ses.start_date"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                              <strong>Duration: </strong>
+                                              <span><t t-esc="ses.duration"/></span>
+
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                              <strong>Seats: </strong>
+                                              <span><t t-esc="ses.seats"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                              <strong>Taken seats: </strong>
+                                              <span><t t-esc="ses.taken_seats"/></span>
+
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                              <strong>Active: </strong>
+                                              <span><t t-esc="ses.active"/></span>
+                                            </div>
+                                        </div>
+
+
+
+
+                                </div>
+
+
+                        </div>
+                        </div>
+                        </div>
+                        </t>
+                        </main>
+                            </div>
+                        </div>
+
+            </t>
+            </template>
+
+    <template id="sessionsFormEdit">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Session Details</t>
+            <form action="/my/home/session/edit/done" method="POST">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="ses_id" t-att-value="session.id"/>
+                <div class="row o_portal_details">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div t-attf-class="form-group col-xl-6">
+                                <label class="col-form-label" for="name">Name</label>
+                                <input type="text" name="name" t-attf-class="form-control" t-att-value="session.name" />
+                            </div>
+							<div t-attf-class="form-group col-xl-6">
+                                <label class="col-form-label" for="duration">Duration</label>
+                                <input type="text" name="duration" t-attf-class="form-control" t-att-value="session.duration" />
+                            </div>
+							<div t-attf-class="form-group col-xl-6">
+                                <label class="col-form-label" for="date">Start date</label>
+                                <input type="text" name="date" t-attf-class="form-control" t-att-value="session.start_date" />
+                            </div>
+							<div t-attf-class="form-group col-xl-6">
+                                <label class="col-form-label" for="seats">Seats</label>
+                                <input type="text" name="seats" t-attf-class="form-control" t-att-value="session.seats" />
+                            </div>
+							<div t-attf-class="form-group col-xl-6">
+                                <label class="col-form-label" for="tseats">Taken seats</label>
+                                <input type="text" name="tseats" t-attf-class="form-control" t-att-value="session.taken_seats" />
+                            </div>
+
+
+							<div class="clearfix">
+                            <button type="submit" class="btn btn-primary float-right mb32">
+                                Confirm
+                                <span class="fa fa-long-arrow-right" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </form>
+
+        </t>
+    </template>
+
+
+
+
+
+
+
+        <!--
+                </template>-->
+
 <!--
         <template id="listing">
           <ul>
@@ -20,5 +249,4 @@
           </dl>
         </template>
 -->
-    </data>
 </odoo>

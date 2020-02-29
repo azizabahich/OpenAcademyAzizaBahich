@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from odoo import models, fields, api, exceptions
 
+
 class Session(models.Model):
     _name = 'academy.session'
     _description = "OpenAcademy Sessions"
@@ -14,8 +15,9 @@ class Session(models.Model):
     active = fields.Boolean(default=True)
     color = fields.Integer()
 
-    instructor_id = fields.Many2one("res.partner", string='Instructor',
-                                    domain=['!', ('instructor', '=', True), ('category_id.name', 'ilike', 'Teacher')])
+    instructor_id = fields.Many2one('res.partner', string="Instructor",
+                                    domain=['|', ('instructor', '=', True),
+                                            ('category_id.name', 'ilike', "Teacher")])
     course_id = fields.Many2one("academy.course", string='Course', ondelete='cascade', required=True)
     attendee_ids = fields.Many2many("res.partner", column1='session_id', column2='attendee_id', string='Attendees')
 
@@ -81,4 +83,3 @@ class Session(models.Model):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor can't be an attendee")
-

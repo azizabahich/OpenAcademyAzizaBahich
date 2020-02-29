@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-     'name': "academy",
+    'name': "academy",
 
-     'summary': """Manage trainings""",
+    'summary': """Manage trainings""",
 
     'description': """
        Open Academy module for managing trainings:
@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'board'],
+    'depends': ['base', 'board', 'website'],
 
     # always loaded
     'data': [
@@ -32,7 +32,10 @@
         'views/reports.xml',
         'views/session_board.xml',
         'views/session_wizard.xml',
-        'views/partner.xml',
+        'views/partner_views.xml',
+        'views/teacher_views.xml',
+        'views/templates.xml',
+        'views/views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

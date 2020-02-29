@@ -4,6 +4,7 @@ from odoo import models, fields
 class Course(models.Model):
     _name = 'academy.course'
     _description = "course model"
+    _inherit = 'mail.thread'
 
     name = fields.Char()
     description = fields.Text()
@@ -11,6 +12,8 @@ class Course(models.Model):
     responsible_id = fields.Many2one("res.users", ondelete='set null',
                                      string='Responsible', index=True)
     session_ids = fields.One2many("academy.session", "course_id", string='Sessions')
+
+    teacher_id = fields.Many2one('academy.teachers', string="Teacher")
 
     def copy(self, default=None):
         default = dict(default or {})

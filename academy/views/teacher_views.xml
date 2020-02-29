@@ -1,0 +1,65 @@
+<odoo>
+
+	<record model="ir.ui.view" id="teachers_tree_view">
+            <field name="name">teachers.tree</field>
+            <field name="model">academy.teachers</field>
+            <field name="arch" type="xml">
+                <tree string="Teachers Tree">
+                    <field name="name"/>
+                    <field name="biography"/>
+
+                    <field name="course_ids">
+                        <tree string="Courses" editable="bottom">
+                          <field name="name"/>
+                        </tree>
+                    </field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="teachers_form_view" model="ir.ui.view">
+            <field name="name">Academy teachers: form</field>
+            <field name="model">academy.teachers</field>
+            <field name="arch" type="xml">
+              <form>
+                <sheet>
+                  <group>
+                      <field name="name"/>
+                  </group>
+                  <group>
+
+                      <field name="course_ids" widget="many2many">
+                        <tree string="Courses" editable="bottom">
+                          <field name="name"/>
+                        </tree>
+                      </field>
+                  </group>
+                  <label for="biography"/>
+                  <field name="biography"/>
+
+                </sheet>
+                <div class="oe_chatter">
+                  <field name="message_follower_ids" widget="mail_followers"/>
+                  <field name="message_ids" widget="mail_thread"/>
+                </div>
+              </form>
+            </field>
+        </record>
+
+
+    <record model="ir.actions.act_window" id="teachers_list_action">
+            <field name="name">Teachers</field>
+            <field name="res_model">academy.teachers</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first teacher
+                </p>
+            </field>
+        </record>
+
+
+    <menuitem id="academy_teachers_menu" name="Teachers"
+                  parent="main_academy_menu" sequence="3"/>
+        <menuitem id="teachers_menu" name="List of teachers" parent="academy_teachers_menu"
+                  action="teachers_list_action"/>
+</odoo>
