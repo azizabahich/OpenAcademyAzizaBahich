@@ -27,6 +27,22 @@ class Session(models.Model):
     attendees_count = fields.Integer(string="Attendees count",
                                      compute='_get_attendees_count', store=True)
 
+    # session workflow
+    state = fields.Selection([
+        ('draft', "Draft"),
+        ('confirmed', "Confirmed"),
+        ('done', "Done"),
+    ], default='draft')
+
+    def action_draft(self):
+        self.state = 'draft'
+
+    def action_confirm(self):
+        self.state = 'confirmed'
+
+    def action_done(self):
+        self.state = 'done'
+
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
         for r in self:
