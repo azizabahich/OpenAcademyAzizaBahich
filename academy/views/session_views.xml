@@ -102,7 +102,9 @@
                     <field name="arch" type="xml">
                         <form string="Session Form">
                             <header>
-                                <button name="action_draft" type="object"
+                                <button string="Create invoice" class="oe_highlight" name="invoice" type="object" attrs="{'invisible': ['|',('invoice_count', '!=', 0), ('state', '!=', 'validate')]}"></button>
+
+                                <!--<button name="action_draft" type="object"
                                         string="Reset to draft"
                                         states="confirmed,done"/>
                                 <button name="action_confirm" type="object"
@@ -111,9 +113,19 @@
                                 <button name="action_done" type="object"
                                         string="Mark as done" states="confirmed"
                                         class="oe_highlight"/>
+                                <field name="state" widget="statusbar"/>-->
+                                <button string="CONFIRM" type="object" name="confirm_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('state', '=', 'validate'),('state', '=', 'confirm')]}"/>
+                                <button string="VALIDATE" type="object" name="validate_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('state', '=', 'draft'),('state', '=', 'validate')]}" />
                                 <field name="state" widget="statusbar"/>
+<!--                                <field name="button_clicked" widget="statusbar"/>-->
                             </header>
                             <sheet>
+                                <div class="oe_button_box" name="button_box">
+                                    <button name="action_invoice" type="object" class="oe_stat_button"
+                                            icon="fa-pencil-square-o">
+                                        <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                                    </button>
+                                </div>
                                 <group>
                                     <group string="General">
                                         <field name="course_id"/>
@@ -125,6 +137,7 @@
                                     <group string="Schedule">
                                         <field name="start_date"/>
                                         <field name="duration"/>
+                                        <field name="price_hour"/>
                                         <field name="seats"/>
                                         <field name="taken_seats" widget="progressbar"/>
                                     </group>

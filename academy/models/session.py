@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, exceptions, _
 
 
 class Session(models.Model):
@@ -28,20 +28,20 @@ class Session(models.Model):
                                      compute='_get_attendees_count', store=True)
 
     # session workflow
-    state = fields.Selection([
-        ('draft', "Draft"),
-        ('confirmed', "Confirmed"),
-        ('done', "Done"),
-    ], default='draft')
-
-    def action_draft(self):
-        self.state = 'draft'
-
-    def action_confirm(self):
-        self.state = 'confirmed'
-
-    def action_done(self):
-        self.state = 'done'
+    # state = fields.Selection([
+    #     ('draft', "Draft"),
+    #     ('confirmed', "Confirmed"),
+    #     ('done', "Done"),
+    # ], default='draft')
+    #
+    # def action_draft(self):
+    #     self.state = 'draft'
+    #
+    # def action_confirm(self):
+    #     self.state = 'confirmed'
+    #
+    # def action_done(self):
+    #     self.state = 'done'
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
@@ -99,3 +99,104 @@ class Session(models.Model):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor can't be an attendee")
+
+    price_hour = fields.Integer(help="Price")
+    total = fields.Integer(help="total", compute='_calculate_total')
+
+    price_session = fields.Float(string="Price for Session")
+    sessions_total_price = fields.Float(string="Total")
+
+    state = fields.Selection([
+        ('draft', "Draft"),
+        ('confirm', "Confirm"),
+        ('validate', "Validate"),
+    ], default='draft', string='State')
+    invoice_ids = fields.One2many("account.move", "session_id")
+    invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
+    date = fields.Date(required=True, default=fields.Date.context_today)
+
+    def draft_progressbar(self):
+        self.write({
+            'state': 'draft'
+        })
+
+    def confirm_progressbar(self):
+        self.write({
+            'state': 'confirm'
+        })
+
+    def validate_progressbar(self):
+        self.write({
+            'state': 'validate',
+        })
+
+    def invoice(self):
+        data = {
+            'session_id': self.id,
+            'partner_id': self.instructor_id.id,
+            'type': 'in_invoice',
+            'invoice_date': self.date,
+            "invoice_line_ids": [],
+        }
+
+        line = {
+            "name": "session",
+            "quantity": self.duration,
+            "price_unit": self.price_hour,
+            #"account_id" : 2,
+
+        }
+        data["invoice_line_ids"].append((0, 0, line))
+        invoice = self.env['account.move'].create(data)
+
+
+    def action_invoice(self):
+        invoices = self.mapped('invoice_ids')
+        action = self.env.ref('account.action_move_out_invoice_type').read()[0]
+        if len(invoices) > 1:
+            action['domain'] = [('id', 'in', invoices.ids)]
+        elif len(invoices) == 1:
+            form_view = [(self.env.ref('account.view_move_form').id, 'form')]
+            if 'views' in action:
+                action['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = invoices.id
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        context = {
+            'default_type': 'out_invoice',
+        }
+
+        action['context'] = context
+        return action
+
+    def _calculate_total(self):
+        self.total = self.duration * self.price_hour
+
+    def action_draft(self):
+        self.state = 'draft'
+
+    def action_confirm(self):
+        self.state = 'confirmed'
+
+    def action_done(self):
+        self.state = 'done'
+
+    def _compute_invoice_count(self):
+        self.invoice_count = self.env['account.move'].search_count([('session_id', '=', self.id)])
+
+    def _calculate_total_sessions(self):
+        self.sessions_total_price = sum(self.price_session)
+
+    def _calculate_total(self):
+        # bundle = self.sessions_total_price
+        # self.lst_price = 0.0
+        # for each in bundle:
+        #     self.lst_price += each.tm_sum
+        for order in self:
+            comm_total = 10
+            for line in self.sessions_total_price:
+                comm_total += line.price_session
+            order.update({'sessions_total_price': comm_total})

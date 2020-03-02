@@ -22,16 +22,17 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/wizard" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/models" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/wizard" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/models" />
       <recent name="$PROJECT_DIR$/views" />
+      <recent name="$PROJECT_DIR$/wizard" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/models" />
       <recent name="$PROJECT_DIR$/wizard" />
     </key>
   </component>
@@ -102,30 +103,30 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="67" y="102" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582797303410">
+    <state x="67" y="102" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583145098816">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state x="67" y="102" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1085.837@67.27.1085.837" timestamp="1582797303410" />
-    <state x="392" y="202" width="424" height="484" key="FileChooserDialogImpl" timestamp="1582642251288">
+    <state x="67" y="102" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1085.837@67.27.1085.837" timestamp="1583145098816" />
+    <state x="392" y="202" width="424" height="484" key="FileChooserDialogImpl" timestamp="1583145061210">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state x="392" y="202" width="424" height="484" key="FileChooserDialogImpl/67.27.1085.837@67.27.1085.837" timestamp="1582642251288" />
-    <state width="1062" height="262" key="GridCell.Tab.0.bottom" timestamp="1583101725971">
+    <state x="392" y="202" width="424" height="484" key="FileChooserDialogImpl/67.27.1085.837@67.27.1085.837" timestamp="1583145061210" />
+    <state width="1062" height="158" key="GridCell.Tab.0.bottom" timestamp="1583166002627">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state width="1062" height="262" key="GridCell.Tab.0.bottom/67.27.1085.837@67.27.1085.837" timestamp="1583101725971" />
-    <state width="1062" height="262" key="GridCell.Tab.0.center" timestamp="1583101725970">
+    <state width="1062" height="158" key="GridCell.Tab.0.bottom/67.27.1085.837@67.27.1085.837" timestamp="1583166002627" />
+    <state width="1062" height="158" key="GridCell.Tab.0.center" timestamp="1583166002626">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state width="1062" height="262" key="GridCell.Tab.0.center/67.27.1085.837@67.27.1085.837" timestamp="1583101725970" />
-    <state width="1062" height="262" key="GridCell.Tab.0.left" timestamp="1583101725969">
+    <state width="1062" height="158" key="GridCell.Tab.0.center/67.27.1085.837@67.27.1085.837" timestamp="1583166002626" />
+    <state width="1062" height="158" key="GridCell.Tab.0.left" timestamp="1583166002625">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state width="1062" height="262" key="GridCell.Tab.0.left/67.27.1085.837@67.27.1085.837" timestamp="1583101725969" />
-    <state width="1062" height="262" key="GridCell.Tab.0.right" timestamp="1583101725970">
+    <state width="1062" height="158" key="GridCell.Tab.0.left/67.27.1085.837@67.27.1085.837" timestamp="1583166002625" />
+    <state width="1062" height="158" key="GridCell.Tab.0.right" timestamp="1583166002627">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
-    <state width="1062" height="262" key="GridCell.Tab.0.right/67.27.1085.837@67.27.1085.837" timestamp="1583101725970" />
+    <state width="1062" height="158" key="GridCell.Tab.0.right/67.27.1085.837@67.27.1085.837" timestamp="1583166002627" />
     <state x="272" y="185" width="672" height="678" key="search.everywhere.popup" timestamp="1582712374312">
       <screen x="67" y="27" width="1085" height="837" />
     </state>
