@@ -7,3 +7,4 @@ class Invoice(models.Model):
     _inherit = 'account.move'
 
     session_id = fields.Many2one("academy.session", string="session")
+

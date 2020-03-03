@@ -36,6 +36,7 @@
         'views/teacher_views.xml',
         'views/templates.xml',
         'views/views.xml',
+        #'data/data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -131,24 +131,27 @@ class Session(models.Model):
         })
 
     def invoice(self):
+        id_product_template = self.env['product.template'].search([('name', 'ilike', 'Session')]).id
+        id_product_product = self.env['product.prprice_sessionoduct'].search([('product_tmpl_id', '=', id_product_template)]).id
+
         data = {
             'session_id': self.id,
             'partner_id': self.instructor_id.id,
             'type': 'in_invoice',
             'invoice_date': self.date,
             "invoice_line_ids": [],
+
         }
 
+        s = str(self.id)
         line = {
-            "name": "session",
+            "name": self.name,
+            "product_id": id_product_product,
             "quantity": self.duration,
             "price_unit": self.price_hour,
-            #"account_id" : 2,
-
         }
         data["invoice_line_ids"].append((0, 0, line))
         invoice = self.env['account.move'].create(data)
-
 
     def action_invoice(self):
         invoices = self.mapped('invoice_ids')
