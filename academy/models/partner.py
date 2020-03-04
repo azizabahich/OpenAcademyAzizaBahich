@@ -1,15 +1,11 @@
-from odoo.tools.misc import formatLang, format_date, get_lang
-
-
 from odoo import models, fields, _
-
-from models import session
 
 
 class Partner(models.Model):
     _inherit = 'res.partner'
 
     instructor = fields.Boolean("Instructor", default=False)
+
     session_ids = fields.Many2many('academy.session',
                                    column1='attendee_id', column2='session_id',
                                    string='Attended sessions',
@@ -18,12 +14,13 @@ class Partner(models.Model):
     session_ins = fields.One2many('academy.session', 'instructor_id', string="Session")
 
     session_count = fields.Integer(string="Nombre de sessions", compute='_ses_count')
+
     id_of_latest_invoice = fields.Integer(string='id_of_latest_invoice')
+
+    invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
 
     def _ses_count(self):
         self.session_count = len(self.session_ins)
-
-    invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
 
     def _compute_invoice_count(self):
         self.invoice_count = self.env['account.move'].search_count([('partner_id', '=', self.id)])
@@ -45,15 +42,13 @@ class Partner(models.Model):
         for session in self.session_ids:
 
             print(session.state)
-            if session.state == "facturee":
-                print("i'm here1")
+            if session.state == "invoiced":
                 continue
 
             if session.state == "validate":
-                print("i'm here2")
                 test = test + 1
                 quantity = quantity + session.duration
-                session.state = "facturee"
+                session.state = "invoiced"
                 # print(quantity)
             unit_price = session.price_hour
 
@@ -117,8 +112,13 @@ class Partner(models.Model):
         action['context'] = context
         return action
 
+    def print_invoices(self):
+
+        invoice = self.env['account.move'].search([('id', '=', self.id_of_latest_invoice)])
+        return self.env.ref('account.account_invoices').report_action(invoice)
+
     # def print_invoice(self):
-    #     #return self.env.ref('account.report_invoice').report_action(self)
+    #     #return self.env.ref('account.report_invoice').report_action(invoi)
     #     self.ensure_one()
     #     template = self.env.ref('account.email_template_edi_invoice', raise_if_not_found=False)
     #     lang = get_lang(self.env)

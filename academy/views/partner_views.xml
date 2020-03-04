@@ -1,19 +1,15 @@
 <odoo>
 
-
     <!-- Add instructor field to existing view -->
-
      <record model="ir.ui.view" id="partner_instructor_form_view">
         <field name="name">partner.instructor</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-
             <xpath expr="//form//sheet" position="before">
             <header>
                 <button string="Create sessions invoice " class="oe_highlight" name="invoice2" type="object" ></button>
-<!--                <button type="object" name="print_invoice" string="Print invoice"/>-->
-
+                <button string="Print Invoice " class="oe_highlight" name="print_invoices" type="object" ></button>
             </header>
             </xpath>
             <div class="oe_button_box" name="button_box">
@@ -30,15 +26,14 @@
 
                 </page>
             </notebook>
-
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="contact_list_action">
-            <field name="name">Contacts</field>
-            <field name="res_model">res.partner</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+        <field name="name">Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
 
     <record id="contact_tags_action" model="ir.actions.act_window">
@@ -47,14 +42,14 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-        <menuitem id="configuration_menu" name="Configuration"
-                  parent="main_academy_menu"/>
-        <menuitem id="contact_menu" name="Contacts"
-                  parent="configuration_menu"
-                  action="contact_list_action"/>
 
-        <menuitem id="contact_tags_menu" name="Contact Tags" parent="configuration_menu"
+    <menuitem id="configuration_menu" name="Configuration"
+              parent="main_academy_menu"/>
+    <menuitem id="contact_menu" name="Contacts"
+              parent="configuration_menu"
+              action="contact_list_action"/>
+
+    <menuitem id="contact_tags_menu" name="Contact Tags" parent="configuration_menu"
                     action="contact_tags_action"/>
-
 
 </odoo>

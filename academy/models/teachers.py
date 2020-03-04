@@ -9,4 +9,3 @@ class Teachers(models.Model):
     biography = fields.Html()
 
     course_ids = fields.One2many('academy.course', 'teacher_id', string="Courses")
-

@@ -29,7 +29,7 @@
         'views/academy_views.xml',
         'views/course_views.xml',
         'views/session_views.xml',
-        'views/reports.xml',
+        'views/reports_views.xml',
         'views/session_board.xml',
         'views/session_wizard.xml',
         'views/partner_views.xml',

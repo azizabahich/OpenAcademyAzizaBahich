@@ -18,8 +18,11 @@ class Session(models.Model):
     instructor_id = fields.Many2one('res.partner', string="Instructor",
                                     domain=['|', ('instructor', '=', True),
                                             ('category_id.name', 'ilike', "Teacher")])
+
     course_id = fields.Many2one("academy.course", string='Course', ondelete='cascade', required=True)
-    attendee_ids = fields.Many2many("res.partner", column1='session_id', column2='attendee_id', string='Attendees')
+
+    attendee_ids = fields.Many2many("res.partner", column1='session_id', column2='attendee_id',
+                                    string='Attendees')
 
     end_date = fields.Date(string="End Date", store=True,
                            compute='_get_end_date', inverse='_set_end_date')
@@ -27,21 +30,26 @@ class Session(models.Model):
     attendees_count = fields.Integer(string="Attendees count",
                                      compute='_get_attendees_count', store=True)
 
-    # session workflow
-    # state = fields.Selection([
-    #     ('draft', "Draft"),
-    #     ('confirmed', "Confirmed"),
-    #     ('done', "Done"),
-    # ], default='draft')
-    #
-    # def action_draft(self):
-    #     self.state = 'draft'
-    #
-    # def action_confirm(self):
-    #     self.state = 'confirmed'
-    #
-    # def action_done(self):
-    #     self.state = 'done'
+    price_hour = fields.Integer(help="Price")
+
+    total = fields.Integer(help="total", compute='_calculate_total')
+
+    price_session = fields.Float(string="Price for Session")
+
+    sessions_total_price = fields.Float(string="Total")
+
+    state = fields.Selection([
+        ('draft', "Draft"),
+        ('confirm', "Confirmed"),
+        ('validate', "Validated"),
+        ('invoiced', "Invoiced"),
+    ], default='draft', string='State')
+
+    invoice_ids = fields.One2many("account.move", "session_id")
+
+    invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
+
+    date = fields.Date(required=True, default=fields.Date.context_today)
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
@@ -86,6 +94,7 @@ class Session(models.Model):
                     'message': _("The number of available seats may not be negative"),
                 },
             }
+
         if self.seats < len(self.attendee_ids):
             return {
                 'warning': {
@@ -99,22 +108,6 @@ class Session(models.Model):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor can't be an attendee")
-
-    price_hour = fields.Integer(help="Price")
-    total = fields.Integer(help="total", compute='_calculate_total')
-
-    price_session = fields.Float(string="Price for Session")
-    sessions_total_price = fields.Float(string="Total")
-
-    state = fields.Selection([
-        ('draft', "Draft"),
-        ('confirm', "Confirm"),
-        ('validate', "Validate"),
-        ('facturee', "Facturee"),
-    ], default='draft', string='State')
-    invoice_ids = fields.One2many("account.move", "session_id")
-    invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
-    date = fields.Date(required=True, default=fields.Date.context_today)
 
     def draft_progressbar(self):
         self.write({
@@ -133,8 +126,7 @@ class Session(models.Model):
 
     def invoice(self):
         id_product_template = self.env['product.template'].search([('name', 'ilike', 'Session')]).id
-        id_product_product = self.env['product.prprice_sessionoduct'].search([('product_tmpl_id', '=', id_product_template)]).id
-
+        id_product_product = self.env['product.product'].search([('product_tmpl_id', '=', id_product_template)]).i
         data = {
             'session_id': self.id,
             'partner_id': self.instructor_id.id,
@@ -144,13 +136,13 @@ class Session(models.Model):
 
         }
 
-        s = str(self.id)
         line = {
             "name": self.name,
             "product_id": id_product_product,
             "quantity": self.duration,
             "price_unit": self.price_hour,
         }
+
         data["invoice_line_ids"].append((0, 0, line))
         invoice = self.env['account.move'].create(data)
 
@@ -195,10 +187,6 @@ class Session(models.Model):
         self.sessions_total_price = sum(self.price_session)
 
     def _calculate_total(self):
-        # bundle = self.sessions_total_price
-        # self.lst_price = 0.0
-        # for each in bundle:
-        #     self.lst_price += each.tm_sum
         for order in self:
             comm_total = 10
             for line in self.sessions_total_price:
