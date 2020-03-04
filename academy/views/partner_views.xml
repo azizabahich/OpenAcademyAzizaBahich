@@ -11,7 +11,9 @@
 
             <xpath expr="//form//sheet" position="before">
             <header>
-                <button string="Create sessions invoice " class="oe_highlight" name="facturer" type="object" ></button>
+                <button string="Create sessions invoice " class="oe_highlight" name="invoice2" type="object" ></button>
+<!--                <button type="object" name="print_invoice" string="Print invoice"/>-->
+
             </header>
             </xpath>
             <div class="oe_button_box" name="button_box">

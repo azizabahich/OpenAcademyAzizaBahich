@@ -110,6 +110,7 @@ class Session(models.Model):
         ('draft', "Draft"),
         ('confirm', "Confirm"),
         ('validate', "Validate"),
+        ('facturee', "Facturee"),
     ], default='draft', string='State')
     invoice_ids = fields.One2many("account.move", "session_id")
     invoice_count = fields.Integer(string="count invoice", compute="_compute_invoice_count")
